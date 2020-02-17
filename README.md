@@ -1,19 +1,21 @@
 # Dotify-mongo-node-ts
 ### Convert JSON object in Request.Body to dotified object to store in mongodb
 
-const Entries = Object.keys(Req.body)
-const Updates = {}
+    public Update(Req: Request, Res: Response, Next: NextFunction) {
+        const Entries = Object.keys(Req.body)
+        const Updates = {}
 
-// constructing dynamic query
+        // constructing dynamic query
 
-for (let i = 0; i < Entries.length; i++) {
-    Updates[Entries[i]] = Object.values(Req.body)[i]
-}
+        for (let i = 0; i < Entries.length; i++) {
+            Updates[Entries[i]] = Object.values(Req.body)[i]
+        }
 
-let DotifiedUpdates = Dotify.dotify(Updates);
-Organisation.updateOne({ companyId: Req.body.companyId }, { $set: DotifiedUpdates }).exec().then(success => {
+        let DotifiedUpdates = Dotify.dotify(Updates);
+        Organisation.updateOne({ companyId: Req.body.companyId }, { $set: DotifiedUpdates }).exec().then(success => {
 
-    // console.log(success);
-    Res.send(success);
-})
-    .catch(err => Res.status(500).json({ message: err.name }));
+            // console.log(success);
+            Res.send(success);
+        })
+            .catch(err => Res.status(500).json({ message: err.name }));
+    }
